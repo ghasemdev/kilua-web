@@ -20,55 +20,48 @@
  * SOFTWARE.
  */
 
-import androidx.compose.runtime.Composable
 import dev.kilua.Application
+import dev.kilua.Hot
 import dev.kilua.compose.root
-import dev.kilua.html.ITable
+import dev.kilua.html.AlignItems
+import dev.kilua.html.Color
+import dev.kilua.html.Display
+import dev.kilua.html.FlexDirection
+import dev.kilua.html.JustifyContent
 import dev.kilua.html.div
-import dev.kilua.html.img
+import dev.kilua.html.helpers.TagStyleFun.Companion.background
 import dev.kilua.html.perc
-import dev.kilua.html.style.style
-import dev.kilua.html.table
-import dev.kilua.html.td
-import dev.kilua.html.th
-import dev.kilua.html.tr
+import dev.kilua.html.pt
+import dev.kilua.html.vh
 import dev.kilua.startApplication
 
 class App : Application() {
     override fun start() {
         root("root") {
             div {
-                img(src = "https://avatars.githubusercontent.com/u/65798992?s=96&v=4") {
-                    style {
-                        borderRadius(50.perc)
-                        onClick {  }
-                    }
+                display(Display.Flex)
+                flexDirection(FlexDirection.Column)
+                alignItems(AlignItems.Center)
+                justifyContent(JustifyContent.Center)
+                width(100.perc)
+                height(100.vh)
+                background(Color.Lightblue)
+
+                div {
+                    pt("First")
+                    pt("Second")
                 }
-            }
-            table {
-                tableRow()
-                tableRow()
-                tableRow()
             }
         }
     }
 
-    @Composable
-    private fun ITable.tableRow() {
-        tr {
-            th {
-                +"a"
-            }
-            td {
-                +"b"
-            }
-            td {
-                +"c"
-            }
-        }
+    override fun dispose(): String? {
+        return null
     }
 }
 
 fun main() {
-    startApplication(::App)
+    startApplication(::App, webpackHot())
 }
+
+expect fun webpackHot(): Hot?
