@@ -22,35 +22,17 @@
 
 import dev.kilua.Application
 import dev.kilua.Hot
+import dev.kilua.compose.foundation.layout.box
 import dev.kilua.compose.root
-import dev.kilua.html.AlignItems
-import dev.kilua.html.Color
-import dev.kilua.html.Display
-import dev.kilua.html.FlexDirection
-import dev.kilua.html.JustifyContent
-import dev.kilua.html.div
-import dev.kilua.html.helpers.TagStyleFun.Companion.background
-import dev.kilua.html.perc
 import dev.kilua.html.pt
-import dev.kilua.html.vh
 import dev.kilua.startApplication
 
 class App : Application() {
     override fun start() {
         root("root") {
-            div {
-                display(Display.Flex)
-                flexDirection(FlexDirection.Column)
-                alignItems(AlignItems.Center)
-                justifyContent(JustifyContent.Center)
-                width(100.perc)
-                height(100.vh)
-                background(Color.Lightblue)
-
-                div {
-                    pt("First")
-                    pt("Second")
-                }
+            box {
+                pt("First")
+                pt("Second")
             }
         }
     }

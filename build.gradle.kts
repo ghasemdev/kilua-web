@@ -44,6 +44,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(libs.kilua)
+                implementation(libs.kilua.tailwindcss)
             }
         }
         val jsMain by getting {

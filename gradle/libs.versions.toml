@@ -5,6 +5,7 @@ compose = "1.8.0-alpha01"
 
 [libraries]
 kilua = { module = "dev.kilua:kilua", version.ref = "kilua" }
+kilua-tailwindcss = { module = "dev.kilua:kilua-tailwindcss", version.ref = "kilua" }
 
 [plugins]
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
