@@ -8,8 +8,60 @@ import dev.kilua.html.JustifyItems
 import web.dom.HTMLElement
 
 @Composable
-fun <T : HTMLElement> ITag<T>.alignmentToStyle(contentAlignment: Alignment) {
-    when (contentAlignment) {
+fun <T : HTMLElement> ITag<T>.selfAlignmentToStyle(alignment: Alignment) {
+    when (alignment) {
+        Alignment.TopStart -> {
+            alignSelf(AlignItems.Start)
+            justifySelf(JustifyItems.Start)
+        }
+
+        Alignment.TopCenter -> {
+            alignSelf(AlignItems.Start)
+            justifySelf(JustifyItems.Center)
+        }
+
+        Alignment.TopEnd -> {
+            alignSelf(AlignItems.Start)
+            justifySelf(JustifyItems.End)
+        }
+
+        Alignment.CenterStart -> {
+            alignSelf(AlignItems.Center)
+            justifySelf(JustifyItems.Start)
+        }
+
+        Alignment.Center -> {
+            alignSelf(AlignItems.Center)
+            justifySelf(JustifyItems.Center)
+        }
+
+        Alignment.CenterEnd -> {
+            alignSelf(AlignItems.Center)
+            justifySelf(JustifyItems.End)
+        }
+
+        Alignment.BottomStart -> {
+            alignSelf(AlignItems.End)
+            justifySelf(JustifyItems.Start)
+        }
+
+        Alignment.BottomCenter -> {
+            alignSelf(AlignItems.End)
+            justifySelf(JustifyItems.Center)
+        }
+
+        Alignment.BottomEnd -> {
+            alignSelf(AlignItems.End)
+            justifySelf(JustifyItems.End)
+        }
+
+        Alignment.FromStyle -> {}
+    }
+}
+
+@Composable
+fun <T : HTMLElement> ITag<T>.alignmentToStyle(alignment: Alignment) {
+    when (alignment) {
         Alignment.TopStart -> {
             alignItems(AlignItems.Start)
             justifyItems(JustifyItems.Start)
