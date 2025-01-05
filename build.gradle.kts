@@ -41,19 +41,11 @@ kotlin {
         binaries.executable()
     }
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.kilua)
-                implementation(libs.kilua.tailwindcss)
-            }
-        }
-        val jsMain by getting {
-            dependencies {
-            }
-        }
-        val wasmJsMain by getting {
-            dependencies {
-            }
+        commonMain.dependencies {
+            implementation(compose.animation)
+
+            implementation(libs.kilua)
+            implementation(libs.kilua.tailwindcss)
         }
     }
 }

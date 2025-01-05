@@ -21,10 +21,11 @@
  */
 
 import dev.kilua.Application
+import dev.kilua.CoreModule
 import dev.kilua.Hot
+import dev.kilua.TailwindcssModule
 import dev.kilua.compose.foundation.layout.box
 import dev.kilua.compose.root
-import dev.kilua.compose.style.selfAlignmentToStyle
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.html.Color
 import dev.kilua.html.div
@@ -35,15 +36,15 @@ import dev.kilua.startApplication
 class App : Application() {
     override fun start() {
         root("root") {
-            box {
-                div {
+            box(contentAlignment = Alignment.Center) {
+                /*div {
                     selfAlignmentToStyle(Alignment.BottomStart)
                     width(50.px)
                     height(50.px)
                     background(color = Color.Red)
-                }
+                }*/
                 div {
-                    selfAlignmentToStyle(Alignment.TopEnd)
+
                     width(50.px)
                     height(50.px)
                     background(color = Color.Blue)
@@ -58,7 +59,7 @@ class App : Application() {
 }
 
 fun main() {
-    startApplication(::App, webpackHot())
+    startApplication(::App, webpackHot(), CoreModule)
 }
 
 expect fun webpackHot(): Hot?
