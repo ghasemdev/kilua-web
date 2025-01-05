@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.compose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.kilua)
@@ -43,9 +42,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.animation)
-
             implementation(libs.kilua)
-            implementation(libs.kilua.tailwindcss)
         }
     }
 }

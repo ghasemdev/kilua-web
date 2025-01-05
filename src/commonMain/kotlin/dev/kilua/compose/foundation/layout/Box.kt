@@ -3,14 +3,13 @@ package dev.kilua.compose.foundation.layout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import dev.kilua.compose.style.alignmentToStyle
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.core.IComponent
-import dev.kilua.html.Color
 import dev.kilua.html.div
 import dev.kilua.html.helpers.TagStyleFun.Companion.background
 import dev.kilua.html.px
-import androidx.compose.ui.graphics.Color as ComposeColor
 
 @LayoutScopeMarker
 @Immutable // TODO: Remove annotation after upstream fix
@@ -39,7 +38,7 @@ fun IComponent.box(
     id: String? = null,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    val color by animateColorInfinite(Color.Blue, Color.Red)
+    val color by animateColorInfinite(Color.Yellow, Color.Magenta)
 
     div(className = className, id = id) {
         maxWidth(200.px)

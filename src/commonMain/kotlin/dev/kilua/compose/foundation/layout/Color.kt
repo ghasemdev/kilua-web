@@ -4,38 +4,32 @@ import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
+import androidx.compose.runtime.*
 import dev.kilua.html.Color
+import androidx.compose.ui.graphics.Color as ComposeColor
 
 @Composable
 fun animateColorInfinite(
-    initialValue: Color,
-    targetValue: Color,
+    initialValue: ComposeColor,
+    targetValue: ComposeColor,
 ): State<Color> {
     val infiniteTransition = rememberInfiniteTransition()
     val blinking by infiniteTransition.animateColor(
-        initialValue = initialValue.toComposeColor(),
-        targetValue = targetValue.toComposeColor(),
+        initialValue = initialValue,
+        targetValue = targetValue,
         animationSpec = infiniteRepeatable(animation = tween())
     )
 
-    val kiluaColor = remember {
+    return remember {
         derivedStateOf {
             blinking.toKiluaColor()
         }
     }
-
-    return kiluaColor
 }
 
-fun androidx.compose.ui.graphics.Color.toKiluaColor(): Color = Color(toHexString())
+fun ComposeColor.toKiluaColor(): Color = Color(toHexString())
 
-fun androidx.compose.ui.graphics.Color.toHexString(): String {
+fun ComposeColor.toHexString(): String {
     val alpha = (this.alpha * 255).toInt()
     val red = (this.red * 255).toInt()
     val green = (this.green * 255).toInt()
@@ -46,32 +40,32 @@ fun androidx.compose.ui.graphics.Color.toHexString(): String {
             alpha.toString(16).padStart(2, '0').uppercase()
 }
 
-fun Color.toComposeColor(): androidx.compose.ui.graphics.Color = value.toComposeColor()
+fun Color.toComposeColor(): ComposeColor = value.toComposeColor()
 
-fun String.toComposeColor(): androidx.compose.ui.graphics.Color {
+fun String.toComposeColor(): ComposeColor {
     val sanitizedHex = this.removePrefix("#")
 
     return when (sanitizedHex.length) {
-        3 -> Color(
+        3 -> ComposeColor(
             red = sanitizedHex[0].toString().toInt(16).toFloat() / 15,
             green = sanitizedHex[1].toString().toInt(16).toFloat() / 15,
             blue = sanitizedHex[2].toString().toInt(16).toFloat() / 15
         )
 
-        4 -> Color(
+        4 -> ComposeColor(
             alpha = sanitizedHex[0].toString().toInt(16).toFloat() / 15,
             red = sanitizedHex[1].toString().toInt(16).toFloat() / 15,
             green = sanitizedHex[2].toString().toInt(16).toFloat() / 15,
             blue = sanitizedHex[3].toString().toInt(16).toFloat() / 15
         )
 
-        6 -> Color(
+        6 -> ComposeColor(
             red = sanitizedHex.substring(0, 2).toInt(16).toFloat() / 255,
             green = sanitizedHex.substring(2, 4).toInt(16).toFloat() / 255,
             blue = sanitizedHex.substring(4, 6).toInt(16).toFloat() / 255
         )
 
-        8 -> Color(
+        8 -> ComposeColor(
             alpha = sanitizedHex.substring(0, 2).toInt(16).toFloat() / 255,
             red = sanitizedHex.substring(2, 4).toInt(16).toFloat() / 255,
             green = sanitizedHex.substring(4, 6).toInt(16).toFloat() / 255,

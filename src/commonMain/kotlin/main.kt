@@ -21,9 +21,7 @@
  */
 
 import dev.kilua.Application
-import dev.kilua.CoreModule
 import dev.kilua.Hot
-import dev.kilua.TailwindcssModule
 import dev.kilua.compose.foundation.layout.box
 import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
@@ -59,7 +57,7 @@ class App : Application() {
 }
 
 fun main() {
-    startApplication(::App, webpackHot(), CoreModule)
+    startApplication(::App)
 }
 
 expect fun webpackHot(): Hot?
