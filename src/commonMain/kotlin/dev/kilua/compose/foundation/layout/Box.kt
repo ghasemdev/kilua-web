@@ -2,14 +2,13 @@ package dev.kilua.compose.foundation.layout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
-import dev.kilua.compose.style.alignmentToStyle
+import dev.kilua.compose.style.toClassName
+import dev.kilua.compose.style.toClassNameSelf
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.core.IComponent
+import dev.kilua.html.IDiv
 import dev.kilua.html.div
-import dev.kilua.html.helpers.TagStyleFun.Companion.background
-import dev.kilua.html.px
+import dev.kilua.utils.rem
 
 @LayoutScopeMarker
 @Immutable // TODO: Remove annotation after upstream fix
@@ -32,21 +31,16 @@ object BoxDefaults {
 
 @Composable
 fun IComponent.box(
-//    modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.TopStart,
+    selfAlignment: Alignment? = null,
     className: String? = null,
     id: String? = null,
-    content: @Composable BoxScope.() -> Unit = {}
+    content: @Composable IDiv.() -> Unit = {},
 ) {
-    val color by animateColorInfinite(Color.Yellow, Color.Magenta)
-
-    div(className = className, id = id) {
-        maxWidth(200.px)
-        height(200.px)
-        background(color = color)
-//        position(Position.Relative)
-
-        alignmentToStyle(contentAlignment)
-        BoxScopeInstance.content()
-    }
+    div(
+        className = "kilua-box" % contentAlignment.toClassName() %
+                selfAlignment?.toClassNameSelf() % className,
+        id = id,
+        content = content,
+    )
 }

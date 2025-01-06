@@ -1,0 +1,111 @@
+.kilua-box {
+    display: grid;
+    grid-template-columns: minmax(0px, 1fr);
+    grid-template-rows: minmax(0px, 1fr);
+}
+
+.kilua-box>* {
+    grid-area: 1 / 1;
+}
+
+.kilua-box.kilua-align-top-start {
+    align-items: start;
+    justify-items: start;
+}
+
+.kilua-box.kilua-align-top-center {
+    align-items: start;
+    justify-items: center;
+}
+
+.kilua-box.kilua-align-top-end {
+    align-items: start;
+    justify-items: end;
+}
+
+.kilua-box.kilua-align-center-start {
+    align-items: center;
+    justify-items: start;
+}
+
+.kilua-box.kilua-align-center {
+    align-items: center;
+    justify-items: center;
+}
+
+.kilua-box.kilua-align-center-end {
+    align-items: center;
+    justify-items: end;
+}
+
+.kilua-box.kilua-align-bottom-start {
+    align-items: end;
+    justify-items: start;
+}
+
+.kilua-box.kilua-align-bottom-center {
+    align-items: end;
+    justify-items: center;
+}
+
+.kilua-box.kilua-align-bottom-end {
+    align-items: end;
+    justify-items: end;
+}
+
+.kilua-box>.kilua-align-top-start-self {
+    align-self: start;
+    justify-self: start;
+}
+
+.kilua-box>.kilua-align-top-center-self {
+    align-self: start;
+    justify-self: center;
+}
+
+.kilua-box>.kilua-align-top-end-self {
+    align-self: start;
+    justify-self: end;
+}
+
+.kilua-box>.kilua-align-center-start-self {
+    align-self: center;
+    justify-self: start;
+}
+
+.kilua-box>.kilua-align-center-self {
+    align-self: center;
+    justify-self: center;
+}
+
+.kilua-box>.kilua-align-center-end-self {
+    justify-self: end;
+    align-self: center;
+}
+
+.kilua-box>.kilua-align-bottom-start-self {
+    justify-self: start;
+    align-self: end;
+}
+
+.kilua-box>.kilua-align-bottom-center-self {
+    justify-self: center;
+    align-self: end;
+}
+
+.kilua-box>.kilua-align-bottom-end-self {
+    justify-self: end;
+    align-self: end;
+}
+
+/* .kilua-align-top {}
+
+.kilua-align-center-vertical {}
+
+.kilua-align-bottom {}
+
+.kilua-align-start {}
+
+.kilua-align-center-horizontal {}
+
+.kilua-align-end {} */

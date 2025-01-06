@@ -22,68 +22,42 @@
 
 import dev.kilua.Application
 import dev.kilua.Hot
+import dev.kilua.compose.ComposeModule
+import dev.kilua.compose.foundation.layout.box
 import dev.kilua.compose.root
-import dev.kilua.html.*
+import dev.kilua.compose.ui.Alignment
+import dev.kilua.html.Color
 import dev.kilua.html.helpers.TagStyleFun.Companion.background
-import dev.kilua.panel.gridPanel
+import dev.kilua.html.px
 import dev.kilua.startApplication
 
 class App : Application() {
     override fun start() {
         root("root") {
-//            box(contentAlignment = Alignment.Center) {
-//                /*div {
-//                    selfAlignmentToStyle(Alignment.BottomStart)
-//                    width(50.px)
-//                    height(50.px)
-//                    background(color = Color.Red)
-//                }*/
-//                div {
-//
-//                    width(50.px)
-//                    height(50.px)
-//                    background(color = Color.Blue)
-//                }
-//            }
-            gridPanel(
-                gridTemplateColumns = "minmax(0px, 1fr)",
-                gridTemplateRows = "minmax(0px, 1fr)",
-                alignItems = AlignItems.End,
-                justifyItems = JustifyItems.End,
-            ) {
-                maxWidth(200.px)
+            box(contentAlignment = Alignment.Center) {
+                width(200.px)
                 height(200.px)
-                background(color = Color.Blue)
-                gridArea("1 / 1")
+                background(color = Color.Gray)
 
-                div {
-                    maxWidth(50.px)
+                box(selfAlignment = Alignment.BottomEnd) {
+                    width(50.px)
                     height(50.px)
                     background(color = Color.Red)
                 }
-
-                div {
-                    maxWidth(50.px)
+                box(selfAlignment = Alignment.TopStart) {
+                    width(50.px)
                     height(50.px)
-                    background(color = Color.Yellow)
-                }
-
-                div {
-                    maxWidth(50.px)
-                    height(50.px)
-                    background(color = Color.Green)
+                    background(color = Color.Blue)
                 }
             }
         }
     }
 
-    override fun dispose(): String? {
-        return null
-    }
+    override fun dispose(): String? = null
 }
 
 fun main() {
-    startApplication(::App, webpackHot())
+    startApplication(::App, webpackHot(), ComposeModule)
 }
 
 expect fun webpackHot(): Hot?
