@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import dev.kilua.compose.style.toClassName
 import dev.kilua.compose.style.toClassNameSelf
 import dev.kilua.compose.ui.Alignment
+import dev.kilua.compose.ui.Modifier
 import dev.kilua.core.IComponent
 import dev.kilua.html.IDiv
 import dev.kilua.html.div
@@ -13,20 +14,37 @@ import dev.kilua.utils.rem
 @LayoutScopeMarker
 @Immutable // TODO: Remove annotation after upstream fix
 interface BoxScope {
-    //    fun Modifier.align(alignment: Alignment) = attrsModifier {
-//        classes("${alignment.toClassName()}-self")
-//    }
-
-//    @Composable
-//    fun <T : HTMLElement> ITag<T>.align(alignment: Alignment) {
-//        selfAlignmentToStyle(alignment)
-//    }
+    fun Modifier.align(alignment: Alignment) = attrsModifier {
+        classes("${alignment.toClassName()}-self")
+    }
 }
 
 internal object BoxScopeInstance : BoxScope
 
 object BoxDefaults {
     val ContentAlignment: Alignment = Alignment.TopStart
+}
+
+/**
+ * Add classes that tell the browser to display this element as a column.
+ *
+ * This method is public as there may occasionally be cases where users could benefit from using this, but in general
+ * you shouldn't reach for this unless you know what you're doing.
+ *
+ * NOTE: This modifier sets attribute properties and can therefore not be used within CssStyles.
+ */
+fun Modifier.boxClasses(contentAlignment: Alignment = BoxDefaults.ContentAlignment) =
+    this.classNames("kobweb-box", contentAlignment.toClassName())
+
+@Composable
+fun IComponent.Box(
+    modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.TopStart,
+    content: @Composable BoxScope.() -> Unit = {}
+) {
+    div(attrs = modifier.boxClasses(contentAlignment).toAttrs()) {
+        BoxScopeInstance.content()
+    }
 }
 
 @Composable
