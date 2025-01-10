@@ -1,7 +1,10 @@
-package dev.kilua.compose.ui.attributes
+package dev.kilua.compose.web.attributes
 
 import androidx.compose.runtime.DisposableEffectResult
 import androidx.compose.runtime.DisposableEffectScope
+import dev.kilua.compose.web.css.StyleScope
+import dev.kilua.compose.web.css.StyleScopeBuilder
+import dev.kilua.compose.web.internal.runtime.ComposeWebInternalApi
 import web.dom.Element
 import web.dom.HTMLElement
 
@@ -29,7 +32,7 @@ interface AttrsScope<out TElement : Element> /*: EventsListenerScope*/ {
      *
      * `attr("style", ...)` overrides everything added in `style { }` blocks
      */
-//    fun style(builder: StyleScope.() -> Unit)
+    fun style(builder: StyleScope.() -> Unit)
 
     /**
      * [classes] adds all values passed as params to the element's classList.
@@ -126,13 +129,12 @@ interface AttrsScope<out TElement : Element> /*: EventsListenerScope*/ {
 
 open class AttrsScopeBuilder<TElement : Element>(
 //    internal val eventsListenerScopeBuilder: EventsListenerScopeBuilder = EventsListenerScopeBuilder()
-) : AttrsScope<TElement> /*, EventsListenerScope by eventsListenerScopeBuilder*/ {
-    internal val attributes = mutableMapOf<String, String>()
-
-    //    internal val styleScope: StyleScopeBuilder = StyleScopeBuilder()
+) : AttrsScope<TElement>/*, EventsListenerScope by eventsListenerScopeBuilder*/ {
+    internal val attributesMap = mutableMapOf<String, String>()
+    internal val styleScope: StyleScopeBuilder = StyleScopeBuilder()
     internal val propertyUpdates = mutableListOf<Pair<(Element, Any) -> Unit, Any>>()
     internal var refEffect: (DisposableEffectScope.(TElement) -> DisposableEffectResult)? = null
-    internal val classes: MutableSet<String> = mutableSetOf()
+    internal val classes: MutableList<String> = mutableListOf()
 
     /**
      * [classes] adds all values passed as params to the element's classList.
@@ -166,9 +168,9 @@ open class AttrsScopeBuilder<TElement : Element>(
      *
      * `attr("style", ...)` overrides everything added in `style { }` blocks
      */
-//    override fun style(builder: StyleScope.() -> Unit) {
-//        styleScope.apply(builder)
-//    }
+    override fun style(builder: StyleScope.() -> Unit) {
+        styleScope.apply(builder)
+    }
 
     /**
      * [ref] can be used to retrieve a reference to a html element.
@@ -191,7 +193,7 @@ open class AttrsScopeBuilder<TElement : Element>(
      * For boolean attributes cast boolean value to String and pass it as value.
      */
     override fun attr(attr: String, value: String): AttrsScope<TElement> {
-        attributes[attr] = value
+        attributesMap[attr] = value
         return this
     }
 
@@ -217,32 +219,19 @@ open class AttrsScopeBuilder<TElement : Element>(
         propertyUpdates.add((update to value) as Pair<(Element, Any) -> Unit, Any>)
     }
 
-    //    @ComposeWebInternalApi
+    internal fun collect(): Map<String, String> {
+        return attributesMap
+    }
+
+    @ComposeWebInternalApi
     internal fun copyFrom(attrsScope: AttrsScopeBuilder<TElement>) {
         refEffect = attrsScope.refEffect
-//        styleScope.copyFrom(attrsScope.styleScope)
+        styleScope.copyFrom(attrsScope.styleScope)
 
-        attributes.putAll(attrsScope.attributes)
+        attributesMap.putAll(attrsScope.attributesMap)
         propertyUpdates.addAll(attrsScope.propertyUpdates)
 
 //        eventsListenerScopeBuilder.copyListenersFrom(attrsScope.eventsListenerScopeBuilder)
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return (other is AttrsScopeBuilder<*>
-                && other.attributes == attributes
-                && other.classes == classes
-//                && other.listeners == listeners
-//                && other.style == style
-                )
-    }
-
-    override fun hashCode(): Int {
-        var result = attributes.hashCode()
-        result = 31 * result + classes.hashCode()
-//        result = 31 * result + listeners.hashCode()
-//        result = 31 * result + (style?.hashCode() ?: 0)
-        return result
     }
 }
 

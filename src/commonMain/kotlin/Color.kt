@@ -1,5 +1,3 @@
-package dev.kilua.compose.foundation.layout
-
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition

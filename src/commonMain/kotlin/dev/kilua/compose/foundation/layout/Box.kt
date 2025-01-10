@@ -7,11 +7,11 @@ import dev.kilua.compose.style.toClassName
 import dev.kilua.compose.style.toClassNameSelf
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
-import dev.kilua.compose.ui.attributes.AttrsScope
-import dev.kilua.compose.ui.attributes.AttrsScopeBuilder
 import dev.kilua.compose.ui.attrsModifier
 import dev.kilua.compose.ui.modifiers.classNames
 import dev.kilua.compose.ui.toAttrs
+import dev.kilua.compose.web.attributes.AttrsScope
+import dev.kilua.compose.web.attributes.AttrsScopeBuilder
 import dev.kilua.core.IComponent
 import dev.kilua.html.*
 import dev.kilua.html.helpers.TagStyleFun.Companion.background
@@ -62,7 +62,7 @@ fun IComponent.Box(
     }
 
     div(className = attrsScopeBuilder.classes.joinToString(separator = " ")) {
-        attrsScopeBuilder.attributes.forEach { (name, value) -> attribute(name = name, value = value) }
+        attrsScopeBuilder.attributesMap.forEach { (name, value) -> attribute(name = name, value = value) }
 
         width(width)
         height(height)

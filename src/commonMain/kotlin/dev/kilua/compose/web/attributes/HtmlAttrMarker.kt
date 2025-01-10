@@ -1,4 +1,4 @@
-package dev.kilua.compose.ui.attributes
+package dev.kilua.compose.web.attributes
 
 @DslMarker
 annotation class HtmlAttrMarker
