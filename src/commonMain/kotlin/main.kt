@@ -23,32 +23,35 @@
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.compose.ComposeModule
-import dev.kilua.compose.foundation.layout.box
+import dev.kilua.compose.foundation.layout.Box
 import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
+import dev.kilua.compose.ui.Modifier
 import dev.kilua.html.Color
-import dev.kilua.html.helpers.TagStyleFun.Companion.background
 import dev.kilua.html.px
 import dev.kilua.startApplication
 
 class App : Application() {
     override fun start() {
         root("root") {
-            box(contentAlignment = Alignment.Center) {
-                width(200.px)
-                height(200.px)
-                background(color = Color.Gray)
-
-                box(selfAlignment = Alignment.BottomEnd) {
-                    width(50.px)
-                    height(50.px)
-                    background(color = Color.Red)
-                }
-                box(selfAlignment = Alignment.TopStart) {
-                    width(50.px)
-                    height(50.px)
-                    background(color = Color.Blue)
-                }
+            Box(contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    width = 50.px,
+                    height = 50.px,
+                    background = Color.Red
+                )
+                Box(
+                    modifier = Modifier.align(Alignment.TopStart),
+                    width = 50.px,
+                    height = 50.px,
+                    background = Color.Blue
+                )
+                Box(
+                    width = 50.px,
+                    height = 50.px,
+                    background = Color.Yellow
+                )
             }
         }
     }

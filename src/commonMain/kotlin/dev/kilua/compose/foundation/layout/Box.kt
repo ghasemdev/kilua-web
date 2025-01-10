@@ -2,14 +2,21 @@ package dev.kilua.compose.foundation.layout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.remember
 import dev.kilua.compose.style.toClassName
 import dev.kilua.compose.style.toClassNameSelf
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
+import dev.kilua.compose.ui.attributes.AttrsScope
+import dev.kilua.compose.ui.attributes.AttrsScopeBuilder
+import dev.kilua.compose.ui.attrsModifier
+import dev.kilua.compose.ui.modifiers.classNames
+import dev.kilua.compose.ui.toAttrs
 import dev.kilua.core.IComponent
-import dev.kilua.html.IDiv
-import dev.kilua.html.div
+import dev.kilua.html.*
+import dev.kilua.html.helpers.TagStyleFun.Companion.background
 import dev.kilua.utils.rem
+import web.dom.HTMLDivElement
 
 @LayoutScopeMarker
 @Immutable // TODO: Remove annotation after upstream fix
@@ -33,16 +40,34 @@ object BoxDefaults {
  *
  * NOTE: This modifier sets attribute properties and can therefore not be used within CssStyles.
  */
-fun Modifier.boxClasses(contentAlignment: Alignment = BoxDefaults.ContentAlignment) =
-    this.classNames("kobweb-box", contentAlignment.toClassName())
+fun Modifier.boxClasses(contentAlignment: Alignment = BoxDefaults.ContentAlignment): Modifier =
+    classNames("kilua-box", contentAlignment.toClassName())
 
 @Composable
 fun IComponent.Box(
     modifier: Modifier = Modifier,
+    width: CssSize = 200.px,
+    height: CssSize = 200.px,
+    background: Color = Color.Gray,
     contentAlignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    div(attrs = modifier.boxClasses(contentAlignment).toAttrs()) {
+    val attrsScopeBuilder = remember(modifier) {
+        AttrsScopeBuilder<HTMLDivElement>().apply {
+            modifier
+                .boxClasses(contentAlignment)
+                .toAttrs<AttrsScope<HTMLDivElement>>()
+                .invoke(this)
+        }
+    }
+
+    div(className = attrsScopeBuilder.classes.joinToString(separator = " ")) {
+        attrsScopeBuilder.attributes.forEach { (name, value) -> attribute(name = name, value = value) }
+
+        width(width)
+        height(height)
+        background(color = background)
+
         BoxScopeInstance.content()
     }
 }
