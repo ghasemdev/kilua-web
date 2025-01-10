@@ -27,6 +27,8 @@ import dev.kilua.compose.foundation.layout.Box
 import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
+import dev.kilua.compose.ui.modifiers.height
+import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.html.Color
 import dev.kilua.html.px
 import dev.kilua.startApplication
@@ -34,23 +36,31 @@ import dev.kilua.startApplication
 class App : Application() {
     override fun start() {
         root("root") {
-            Box(contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier
+                    .width(200.px)
+                    .height(200.px),
+                contentAlignment = Alignment.Center,
+            ) {
                 Box(
-                    modifier = Modifier.align(Alignment.BottomEnd),
-                    width = 50.px,
-                    height = 50.px,
-                    background = Color.Red
+                    modifier = Modifier
+                        .width(50.px)
+                        .height(50.px)
+                        .align(Alignment.BottomEnd),
+                    background = Color.Red,
                 )
                 Box(
-                    modifier = Modifier.align(Alignment.TopStart),
-                    width = 50.px,
-                    height = 50.px,
-                    background = Color.Blue
+                    modifier = Modifier
+                        .width(50.px)
+                        .height(50.px)
+                        .align(Alignment.TopStart),
+                    background = Color.Blue,
                 )
                 Box(
-                    width = 50.px,
-                    height = 50.px,
-                    background = Color.Yellow
+                    modifier = Modifier
+                        .width(50.px)
+                        .height(50.px),
+                    background = Color.Yellow,
                 )
             }
         }

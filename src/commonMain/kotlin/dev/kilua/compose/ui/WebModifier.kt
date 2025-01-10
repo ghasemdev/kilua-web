@@ -78,7 +78,7 @@ fun <A : AttrsScope<Element>> Modifier.toAttrs(finalHandler: (A.() -> Unit)? = n
             if (modifierElement is AttrsModifier) {
                 modifierElement.attrs.invoke(this)
             } else if (modifierElement is StyleModifier) {
-//                style { modifierElement.styles.invoke(this) }
+                style { modifierElement.styles.invoke(this) }
             }
         }
 

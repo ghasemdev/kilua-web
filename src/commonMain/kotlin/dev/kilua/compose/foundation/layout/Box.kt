@@ -3,6 +3,7 @@ package dev.kilua.compose.foundation.layout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
+import dev.kilua.compose.ComponentNode
 import dev.kilua.compose.style.toClassName
 import dev.kilua.compose.style.toClassNameSelf
 import dev.kilua.compose.ui.Alignment
@@ -13,7 +14,10 @@ import dev.kilua.compose.ui.toAttrs
 import dev.kilua.compose.web.attributes.AttrsScope
 import dev.kilua.compose.web.attributes.AttrsScopeBuilder
 import dev.kilua.core.IComponent
-import dev.kilua.html.*
+import dev.kilua.html.Color
+import dev.kilua.html.Div
+import dev.kilua.html.IDiv
+import dev.kilua.html.div
 import dev.kilua.html.helpers.TagStyleFun.Companion.background
 import dev.kilua.utils.rem
 import web.dom.HTMLDivElement
@@ -46,30 +50,54 @@ fun Modifier.boxClasses(contentAlignment: Alignment = BoxDefaults.ContentAlignme
 @Composable
 fun IComponent.Box(
     modifier: Modifier = Modifier,
-    width: CssSize = 200.px,
-    height: CssSize = 200.px,
     background: Color = Color.Gray,
     contentAlignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
+    Div(modifier = modifier.boxClasses(contentAlignment)) {
+        background(color = background)
+        BoxScopeInstance.content()
+    }
+}
+
+/**
+ * Creates a [Div] component.
+ *
+ * @param modifier modifier
+ * @param content the content of the component
+ */
+@Composable
+fun IComponent.Div(
+    modifier: Modifier = Modifier,
+    content: @Composable IDiv.() -> Unit = {}
+) {
     val attrsScopeBuilder = remember(modifier) {
         AttrsScopeBuilder<HTMLDivElement>().apply {
             modifier
-                .boxClasses(contentAlignment)
                 .toAttrs<AttrsScope<HTMLDivElement>>()
                 .invoke(this)
         }
     }
-
-    div(className = attrsScopeBuilder.classes.joinToString(separator = " ")) {
-        attrsScopeBuilder.attributesMap.forEach { (name, value) -> attribute(name = name, value = value) }
-
-        width(width)
-        height(height)
-        background(color = background)
-
-        BoxScopeInstance.content()
+    val className = remember(attrsScopeBuilder) {
+        attrsScopeBuilder.classes.joinToString(separator = " ")
     }
+    val id = null
+
+    val component = remember {
+        Div(className = className, renderConfig = renderConfig).apply {
+            attrsScopeBuilder.attributesMap.forEach { (name, value) ->
+                setAttribute(name = name, value = value)
+            }
+            attrsScopeBuilder.styleScope.properties.forEach { (name, value) ->
+                setStyle(name = name, value = value.toString())
+            }
+        }
+    }
+
+    ComponentNode(component, {
+        set(className) { updateProperty(Div::className, it) }
+        set(id) { updateProperty(Div::id, it) }
+    }, content)
 }
 
 @Composable

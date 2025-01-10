@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE", "FunctionName")
+
 package dev.kilua.compose.web.css
 
 import dev.kilua.utils.cast
