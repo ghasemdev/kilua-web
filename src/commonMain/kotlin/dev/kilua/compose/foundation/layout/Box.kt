@@ -14,11 +14,9 @@ import dev.kilua.compose.ui.toAttrs
 import dev.kilua.compose.web.attributes.AttrsScope
 import dev.kilua.compose.web.attributes.AttrsScopeBuilder
 import dev.kilua.core.IComponent
-import dev.kilua.html.Color
 import dev.kilua.html.Div
 import dev.kilua.html.IDiv
 import dev.kilua.html.div
-import dev.kilua.html.helpers.TagStyleFun.Companion.background
 import dev.kilua.utils.rem
 import web.dom.HTMLDivElement
 
@@ -50,12 +48,10 @@ fun Modifier.boxClasses(contentAlignment: Alignment = BoxDefaults.ContentAlignme
 @Composable
 fun IComponent.Box(
     modifier: Modifier = Modifier,
-    background: Color = Color.Gray,
     contentAlignment: Alignment = Alignment.TopStart,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
     Div(modifier = modifier.boxClasses(contentAlignment)) {
-        background(color = background)
         BoxScopeInstance.content()
     }
 }
