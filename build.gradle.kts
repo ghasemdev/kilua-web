@@ -41,7 +41,7 @@ kotlin {
     }
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.animation)
+//            implementation(compose.animation)
             implementation(libs.kilua)
         }
     }

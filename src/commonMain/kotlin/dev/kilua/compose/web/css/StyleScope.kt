@@ -120,12 +120,6 @@ interface StyleHolder {
     val variables: StylePropertyList
 }
 
-@Deprecated(
-    message = "Renamed to StyleScopeBuilder",
-    replaceWith = ReplaceWith("StyleScopeBuilder", "org.jetbrains.compose.web.css.StyleScopeBuilder")
-)
-typealias StyleBuilderImpl = StyleScopeBuilder
-
 @Suppress("EqualsOrHashCode")
 @OptIn(ComposeWebInternalApi::class)
 open class StyleScopeBuilder : StyleScope, StyleHolder {
