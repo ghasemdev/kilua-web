@@ -3,7 +3,6 @@ package dev.kilua.compose.foundation.layout
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import dev.kilua.compose.style.toClassName
-import dev.kilua.compose.style.toClassNameSelf
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
 import dev.kilua.compose.ui.attrsModifier
@@ -59,7 +58,7 @@ fun IComponent.box(
 ) {
     div(
         className = "kilua-box" % contentAlignment.toClassName() %
-                selfAlignment?.toClassNameSelf() % className,
+                selfAlignment?.let { "${it.toClassName()}-self" } % className,
         id = id,
         content = content,
     )

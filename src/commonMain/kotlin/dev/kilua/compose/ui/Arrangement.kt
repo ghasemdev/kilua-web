@@ -33,29 +33,6 @@ object Arrangement {
     data object SpaceAround : HorizontalOrVertical
 
     /**
-     * A special value indicating that this element's arrangement will be controlled manually using CSS styles.
-     *
-     * For example:
-     *
-     * ```
-     * // We want to use CssStyle + breakpoints to control the layout of our row
-     * val ResponsiveStyle = CssStyle {
-     *   base { Modifier.justifyContent(Start) }
-     *   Breakpoint.MD { Modifier.justifyContent(SpaceEvenly) }
-     * }
-     *
-     * /* ... later ... */
-     * // Row arrangement is controlled by the responsive style!
-     * Row(ResponsiveStyle.toModifier(), horizontalArrangement = Arrangement.FromStyle)
-     * ```
-     *
-     * Using this means you know what you are doing! And that you understand which display type is powering the
-     * underlying element (flexbox for rows and columns). It will be up to you to use the right `justify` / `align`
-     * modifier methods to get the behavior you want.
-     */
-    object FromStyle : HorizontalOrVertical
-
-    /**
      * Arranges the children of the container with a fixed [space] for both horizontal and vertical orientations.
      * This function is marked as stable, ensuring that its result can be safely used in recompositions.
      *

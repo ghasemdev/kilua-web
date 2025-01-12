@@ -2,8 +2,6 @@ package dev.kilua.compose.style
 
 import dev.kilua.compose.ui.Alignment
 
-fun Alignment.toClassNameSelf(): String = "${toClassName()}-self"
-
 fun Alignment.toClassName(): String = when (this) {
     Alignment.TopStart -> "kilua-align-top-start"
     Alignment.TopCenter -> "kilua-align-top-center"

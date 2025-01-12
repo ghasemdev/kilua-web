@@ -2,13 +2,14 @@ package dev.kilua.compose.foundation.layout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
-import dev.kilua.compose.foundation.layout.Div
 import dev.kilua.compose.style.toClassName
+import dev.kilua.compose.style.toClassNames
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Arrangement
 import dev.kilua.compose.ui.Modifier
 import dev.kilua.compose.ui.attrsModifier
 import dev.kilua.compose.ui.modifiers.classNames
+import dev.kilua.core.IComponent
 
 @LayoutScopeMarker
 @Immutable // TODO(#554): Remove annotation after upstream fix
@@ -36,10 +37,10 @@ object RowDefaults {
 fun Modifier.rowClasses(
     horizontalArrangement: Arrangement.Horizontal = RowDefaults.HorizontalArrangement,
     verticalAlignment: Alignment.Vertical = RowDefaults.VerticalAlignment,
-) = classNames("kobweb-row", *horizontalArrangement.toClassNames(), verticalAlignment.toClassName())
+) = classNames("kilua-row", *horizontalArrangement.toClassNames(), verticalAlignment.toClassName())
 
 @Composable
-fun Row(
+fun IComponent.Row(
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = RowDefaults.HorizontalArrangement,
     verticalAlignment: Alignment.Vertical = RowDefaults.VerticalAlignment,

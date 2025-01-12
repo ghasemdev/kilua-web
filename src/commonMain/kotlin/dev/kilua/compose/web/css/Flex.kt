@@ -1,6 +1,11 @@
 package dev.kilua.compose.web.css
 
-import dev.kilua.html.*
+import dev.kilua.html.AlignContent
+import dev.kilua.html.AlignItems
+import dev.kilua.html.CssSize
+import dev.kilua.html.FlexDirection
+import dev.kilua.html.FlexWrap
+import dev.kilua.html.JustifyContent
 
 //region jetbrains
 
