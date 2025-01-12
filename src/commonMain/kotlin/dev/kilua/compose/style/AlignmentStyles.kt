@@ -16,12 +16,12 @@ fun Alignment.toClassName(): String = when (this) {
 
 fun Alignment.Vertical.toClassName(): String = when (this) {
     Alignment.Top -> "kilua-align-top"
-    Alignment.CenterVertically -> "kilua-align-center-vertical"
+    Alignment.CenterVertically -> "kilua-align-center-vert"
     Alignment.Bottom -> "kilua-align-bottom"
 }
 
 fun Alignment.Horizontal.toClassName(): String = when (this) {
     Alignment.Start -> "kilua-align-start"
-    Alignment.CenterHorizontally -> "kilua-align-center-horizontal"
+    Alignment.CenterHorizontally -> "kilua-align-center-horiz"
     Alignment.End -> "kilua-align-end"
 }

@@ -22,9 +22,6 @@ interface BoxScope {
 
 internal object BoxScopeInstance : BoxScope
 
-object BoxDefaults {
-    val ContentAlignment: Alignment = Alignment.TopStart
-}
 
 /**
  * Add classes that tell the browser to display this element as a column.
@@ -34,7 +31,7 @@ object BoxDefaults {
  *
  * NOTE: This modifier sets attribute properties and can therefore not be used within CssStyles.
  */
-fun Modifier.boxClasses(contentAlignment: Alignment = BoxDefaults.ContentAlignment): Modifier =
+fun Modifier.boxClasses(contentAlignment: Alignment = Alignment.TopStart): Modifier =
     classNames("kilua-box", contentAlignment.toClassName())
 
 @Composable
