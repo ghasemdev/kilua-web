@@ -20,61 +20,61 @@ import dev.kilua.utils.rem
 
 @LayoutScopeMarker
 @Immutable // TODO(#554): Remove annotation after upstream fix
-interface RowScope : FlexScope {
-    fun Modifier.align(alignment: Alignment.Vertical) = attrsModifier {
+interface ColumnScope : FlexScope {
+    fun Modifier.align(alignment: Alignment.Horizontal) = attrsModifier {
         classes("${alignment.toClassName()}-self")
     }
 }
 
-internal object RowScopeInstance : RowScope
+internal object ColumnScopeInstance : ColumnScope
 
 /**
- * Add classes that tell the browser to display this element as a row.
+ * Add classes that tell the browser to display this element as a column.
  *
  * This method is public as there may occasionally be cases where users could benefit from using this, but in general
  * you shouldn't reach for this unless you know what you're doing.
  *
  * NOTE: This modifier sets attribute properties and can therefore not be used within CssStyles.
  */
-fun Modifier.rowClasses(
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    verticalAlignment: Alignment.Vertical = Alignment.Top,
-) = classNames("kilua-row", *horizontalArrangement.toClassNames(), verticalAlignment.toClassName())
+fun Modifier.columnClasses(
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+) = classNames("kilua-col", *verticalArrangement.toClassNames(), horizontalAlignment.toClassName())
 
 @Composable
-fun IComponent.Row(
+fun IComponent.Column(
     modifier: Modifier = Modifier,
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    verticalAlignment: Alignment.Vertical = Alignment.Top,
-    content: @Composable RowScope.() -> Unit
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    content: @Composable ColumnScope.() -> Unit
 ) {
     Div(
         modifier = modifier
-            .rowClasses(horizontalArrangement, verticalAlignment)
-            .thenIfNotNull(horizontalArrangement as? SpacedAligned) {
+            .columnClasses(verticalArrangement, horizontalAlignment)
+            .thenIfNotNull(verticalArrangement as? SpacedAligned) {
                 Modifier.setVariable(
-                    variable = StyleVariable.StringValue(name = "kilua-row-gap"),
+                    variable = StyleVariable.StringValue(name = "kilua-col-gap"),
                     value = it.spacing.value
                 )
-            }
+            },
     ) {
-        RowScopeInstance.content()
+        ColumnScopeInstance.content()
     }
 }
 
 @Composable
-fun IComponent.row(
-    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    verticalAlignment: Alignment.Vertical = Alignment.Top,
+fun IComponent.column(
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     className: String? = null,
     id: String? = null,
     content: @Composable IDiv.() -> Unit = {},
 ) {
     div(
-        className = "kilua-row" %
-                verticalAlignment.toClassName() %
-                horizontalArrangement.toClassNames().joinToString(" ") %
-                (horizontalArrangement as? SpacedAligned)?.let { "--kilua-row-gap: ${it.spacing.value};" } %
+        className = "kilua-col" %
+                horizontalAlignment.toClassName() %
+                verticalArrangement.toClassNames().joinToString(" ") %
+                (verticalArrangement as? SpacedAligned)?.let { "--kilua-col-gap: ${it.spacing.value};" } %
                 className,
         id = id,
         content = content,
