@@ -20,12 +20,14 @@
  * SOFTWARE.
  */
 
+import androidx.compose.runtime.Composable
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.compose.ComposeModule
 import dev.kilua.compose.foundation.layout.Box
 import dev.kilua.compose.foundation.layout.Column
 import dev.kilua.compose.foundation.layout.Row
+import dev.kilua.compose.foundation.layout.box
 import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Arrangement
@@ -33,90 +35,102 @@ import dev.kilua.compose.ui.Modifier
 import dev.kilua.compose.ui.modifiers.background
 import dev.kilua.compose.ui.modifiers.height
 import dev.kilua.compose.ui.modifiers.width
+import dev.kilua.core.IComponent
 import dev.kilua.html.Color
+import dev.kilua.html.helpers.TagStyleFun.Companion.background
+import dev.kilua.html.perc
 import dev.kilua.html.px
 import dev.kilua.startApplication
 
 class App : Application() {
     override fun start() {
         root("root") {
+            box {
+                width(100.px)
+                height(100.px)
+                background(color = Color.Red)
+            }
+        }
+    }
+
+    @Composable
+    private fun IComponent.ComposeLayout() {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.px)
+        ) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(8.px)
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(100.px)
-                        .height(30.px)
-                        .background(color = Color.Cyan),
-                ) {}
-                Column(
-                    modifier = Modifier
-                        .width(100.px)
-                        .height(30.px)
-                        .background(color = Color.Yellowgreen),
-                ) {}
-                Column(
-                    modifier = Modifier
-                        .width(100.px)
-                        .height(30.px)
-                        .background(color = Color.Linen),
-                ) {}
-            }
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(8.px),
-                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .width(200.px)
-                    .height(50.px)
-                    .background(color = Color.Red),
-            ) {
-                Row(
-                    modifier = Modifier
-                        .width(50.px)
-                        .height(30.px)
-                        .background(color = Color.Cyan),
-                ) {}
-                Row(
-                    modifier = Modifier
-                        .width(50.px)
-                        .height(30.px)
-                        .background(color = Color.Yellowgreen),
-                ) {}
-                Row(
-                    modifier = Modifier
-                        .width(50.px)
-                        .height(30.px)
-                        .background(color = Color.Linen),
-                ) {}
-            }
+                    .width(100.px)
+                    .height(30.px)
+                    .background(color = Color.Cyan),
+            ) {}
+            Column(
+                modifier = Modifier
+                    .width(100.px)
+                    .height(30.px)
+                    .background(color = Color.Yellowgreen),
+            ) {}
+            Column(
+                modifier = Modifier
+                    .width(100.px)
+                    .height(30.px)
+                    .background(color = Color.Linen),
+            ) {}
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.px),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .width(200.px)
+                .height(50.px)
+                .background(color = Color.Red),
+        ) {
+            Row(
+                modifier = Modifier
+                    .width(50.px)
+                    .height(30.px)
+                    .background(color = Color.Cyan),
+            ) {}
+            Row(
+                modifier = Modifier
+                    .width(50.px)
+                    .height(30.px)
+                    .background(color = Color.Yellowgreen),
+            ) {}
+            Row(
+                modifier = Modifier
+                    .width(50.px)
+                    .height(30.px)
+                    .background(color = Color.Linen),
+            ) {}
+        }
+        Box(
+            modifier = Modifier
+                .width(200.px)
+                .height(200.px)
+                .background(color = Color.Gray),
+            contentAlignment = Alignment.Center,
+        ) {
             Box(
                 modifier = Modifier
-                    .width(200.px)
-                    .height(200.px)
-                    .background(color = Color.Gray),
-                contentAlignment = Alignment.Center,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .width(50.px)
-                        .height(50.px)
-                        .background(color = Color.Red)
-                        .align(Alignment.BottomEnd),
-                )
-                Box(
-                    modifier = Modifier
-                        .width(50.px)
-                        .height(50.px)
-                        .background(color = Color.Blue)
-                        .align(Alignment.TopStart),
-                )
-                Box(
-                    modifier = Modifier
-                        .width(50.px)
-                        .height(50.px)
-                        .background(color = Color.Yellow),
-                )
-            }
+                    .width(50.px)
+                    .height(50.px)
+                    .background(color = Color.Red)
+                    .align(Alignment.BottomEnd),
+            )
+            Box(
+                modifier = Modifier
+                    .width(50.px)
+                    .height(50.px)
+                    .background(color = Color.Blue)
+                    .align(Alignment.TopStart),
+            )
+            Box(
+                modifier = Modifier
+                    .width(50.px)
+                    .height(50.px)
+                    .background(color = Color.Yellow),
+            )
         }
     }
 
