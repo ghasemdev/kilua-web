@@ -1,6 +1,7 @@
 package dev.kilua.compose.foundation.layout
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import dev.kilua.compose.ComponentNode
 import dev.kilua.compose.ui.Modifier
@@ -35,11 +36,20 @@ fun IComponent.Div(
     }
     val id = null
 
-    val component = remember {
-        Div(className = className, renderConfig = renderConfig).apply {
+    val component = remember(className) {
+        Div(className = className, renderConfig = renderConfig)
+    }
+
+    LaunchedEffect(attrsScopeBuilder.attributesMap) {
+        component.apply {
             attrsScopeBuilder.attributesMap.forEach { (name, value) ->
                 setAttribute(name = name, value = value)
             }
+        }
+    }
+
+    LaunchedEffect(attrsScopeBuilder.styleScope.properties) {
+        component.apply {
             attrsScopeBuilder.styleScope.properties.forEach { (name, value) ->
                 setStyle(name = name, value = value.toString())
             }

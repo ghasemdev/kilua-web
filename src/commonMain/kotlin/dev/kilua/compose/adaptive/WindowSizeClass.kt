@@ -3,6 +3,7 @@
 package dev.kilua.compose.adaptive
 
 import androidx.compose.runtime.Immutable
+import dev.kilua.compose.adaptive.WindowWidthSizeClass.*
 import dev.kilua.compose.ui.geometry.Size
 import dev.kilua.compose.ui.util.fastForEach
 
@@ -21,8 +22,7 @@ import dev.kilua.compose.ui.util.fastForEach
  * @property heightSizeClass height-based window size class ([WindowHeightSizeClass])
  */
 @Immutable
-class WindowSizeClass
-private constructor(
+class WindowSizeClass private constructor(
     val widthSizeClass: WindowWidthSizeClass,
     val heightSizeClass: WindowHeightSizeClass
 ) {
@@ -84,39 +84,28 @@ private constructor(
  * class="external" target="_blank">Window size classes documentation</a>.
  */
 @Immutable
-value class WindowWidthSizeClass private constructor(private val value: Int) :
-    Comparable<WindowWidthSizeClass> {
+sealed class WindowWidthSizeClass : Comparable<WindowWidthSizeClass> {
+    /** Represents the majority of phones in portrait. */
+    data object Compact : WindowWidthSizeClass()
+
+    /** Represents the majority of tablets in portrait and large unfolded inner displays in portrait. */
+    data object Medium : WindowWidthSizeClass()
+
+    /** Represents the majority of tablets in landscape and large unfolded inner displays in landscape. */
+    data object Expanded : WindowWidthSizeClass()
 
     override operator fun compareTo(other: WindowWidthSizeClass) =
         breakpoint().compareTo(other.breakpoint())
 
-    override fun toString(): String {
-        return "WindowWidthSizeClass." +
-                when (this) {
-                    Compact -> "Compact"
-                    Medium -> "Medium"
-                    Expanded -> "Expanded"
-                    else -> ""
-                }
+    override fun toString(): String = "WindowWidthSizeClass." + when (this) {
+        Compact -> "Compact"
+        Medium -> "Medium"
+        Expanded -> "Expanded"
     }
 
     companion object {
-        /** Represents the majority of phones in portrait. */
-        val Compact = WindowWidthSizeClass(0)
         var COMPACT_PX = 0
-
-        /**
-         * Represents the majority of tablets in portrait and large unfolded inner displays in
-         * portrait.
-         */
-        val Medium = WindowWidthSizeClass(1)
         var MEDIUM_PX = 600
-
-        /**
-         * Represents the majority of tablets in landscape and large unfolded inner displays in
-         * landscape.
-         */
-        val Expanded = WindowWidthSizeClass(2)
         var EXPANDED_PX = 840
 
         /**
@@ -146,12 +135,10 @@ value class WindowWidthSizeClass private constructor(private val value: Int) :
         @Suppress("ListIterator", "PrimitiveInCollection")
         val AllSizeClasses = AllSizeClassList.toSet()
 
-        private fun WindowWidthSizeClass.breakpoint(): Int {
-            return when {
-                this == Expanded -> EXPANDED_PX
-                this == Medium -> MEDIUM_PX
-                else -> COMPACT_PX
-            }
+        private fun WindowWidthSizeClass.breakpoint(): Int = when (this) {
+            Expanded -> EXPANDED_PX
+            Medium -> MEDIUM_PX
+            Compact -> COMPACT_PX
         }
 
         /**
@@ -164,7 +151,7 @@ value class WindowWidthSizeClass private constructor(private val value: Int) :
         ): WindowWidthSizeClass {
             require(width >= 0) { "Width must not be negative" }
             require(supportedSizeClasses.isNotEmpty()) { "Must support at least one size class" }
-            var smallestSupportedSizeClass = Compact
+            var smallestSupportedSizeClass: WindowWidthSizeClass = Compact
             AllSizeClassList.fastForEach {
                 if (it in supportedSizeClasses) {
                     if (width >= it.breakpoint()) {
@@ -192,34 +179,28 @@ value class WindowWidthSizeClass private constructor(private val value: Int) :
  * class="external" target="_blank">Window size classes documentation</a>.
  */
 @Immutable
-@kotlin.jvm.JvmInline
-value class WindowHeightSizeClass private constructor(private val value: Int) :
-    Comparable<WindowHeightSizeClass> {
+sealed class WindowHeightSizeClass : Comparable<WindowHeightSizeClass> {
+    /** Represents the majority of phones in landscap. */
+    data object Compact : WindowHeightSizeClass()
+
+    /** Represents the majority of tablets in landscape and majority of phones in portrait. */
+    data object Medium : WindowHeightSizeClass()
+
+    /** Represents the majority of tablets in portrait. */
+    data object Expanded : WindowHeightSizeClass()
 
     override operator fun compareTo(other: WindowHeightSizeClass) =
         breakpoint().compareTo(other.breakpoint())
 
-    override fun toString(): String {
-        return "WindowHeightSizeClass." +
-                when (this) {
-                    Compact -> "Compact"
-                    Medium -> "Medium"
-                    Expanded -> "Expanded"
-                    else -> ""
-                }
+    override fun toString(): String = "WindowHeightSizeClass." + when (this) {
+        Compact -> "Compact"
+        Medium -> "Medium"
+        Expanded -> "Expanded"
     }
 
     companion object {
-        /** Represents the majority of phones in landscape */
-        val Compact = WindowHeightSizeClass(0)
         var COMPACT_PX = 0
-
-        /** Represents the majority of tablets in landscape and majority of phones in portrait */
-        val Medium = WindowHeightSizeClass(1)
         var MEDIUM_PX = 480
-
-        /** Represents the majority of tablets in portrait */
-        val Expanded = WindowHeightSizeClass(2)
         var EXPANDED_PX = 900
 
         /**
@@ -249,12 +230,10 @@ value class WindowHeightSizeClass private constructor(private val value: Int) :
         @Suppress("ListIterator", "PrimitiveInCollection")
         val AllSizeClasses = AllSizeClassList.toSet()
 
-        private fun WindowHeightSizeClass.breakpoint(): Int {
-            return when {
-                this == Expanded -> EXPANDED_PX
-                this == Medium -> MEDIUM_PX
-                else -> COMPACT_PX
-            }
+        private fun WindowHeightSizeClass.breakpoint(): Int = when (this) {
+            Expanded -> EXPANDED_PX
+            Medium -> MEDIUM_PX
+            Compact -> COMPACT_PX
         }
 
         /**
@@ -267,7 +246,7 @@ value class WindowHeightSizeClass private constructor(private val value: Int) :
         ): WindowHeightSizeClass {
             require(height >= 0) { "Width must not be negative" }
             require(supportedSizeClasses.isNotEmpty()) { "Must support at least one size class" }
-            var smallestSupportedSizeClass = Expanded
+            var smallestSupportedSizeClass: WindowHeightSizeClass = Expanded
             AllSizeClassList.fastForEach {
                 if (it in supportedSizeClasses) {
                     if (height >= it.breakpoint()) {
