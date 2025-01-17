@@ -1,10 +1,10 @@
 package dev.kilua.compose.style
 
 import dev.kilua.compose.ui.Alignment
-import dev.kilua.compose.ui.Arrangement
-import dev.kilua.compose.ui.SpacedAligned
-import dev.kilua.compose.ui.SpacedAligned.Horizontal
-import dev.kilua.compose.ui.SpacedAligned.Vertical
+import dev.kilua.compose.foundation.layout.Arrangement
+import dev.kilua.compose.foundation.layout.SpacedAligned
+import dev.kilua.compose.foundation.layout.SpacedAligned.Horizontal
+import dev.kilua.compose.foundation.layout.SpacedAligned.Vertical
 
 internal const val KILUA_ARRANGE_BOTTOM = "kilua-arrange-bottom"
 internal const val KILUA_ARRANGE_CENTER = "kilua-arrange-center"

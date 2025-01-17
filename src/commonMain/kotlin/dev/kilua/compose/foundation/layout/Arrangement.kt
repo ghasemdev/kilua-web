@@ -1,5 +1,6 @@
-package dev.kilua.compose.ui
+package dev.kilua.compose.foundation.layout
 
+import dev.kilua.compose.ui.Alignment
 import dev.kilua.html.CssSize
 
 /**

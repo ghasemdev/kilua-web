@@ -5,9 +5,7 @@ import androidx.compose.runtime.Immutable
 import dev.kilua.compose.style.toClassName
 import dev.kilua.compose.style.toClassNames
 import dev.kilua.compose.ui.Alignment
-import dev.kilua.compose.ui.Arrangement
 import dev.kilua.compose.ui.Modifier
-import dev.kilua.compose.ui.SpacedAligned
 import dev.kilua.compose.ui.attrsModifier
 import dev.kilua.compose.ui.modifiers.classNames
 import dev.kilua.compose.ui.modifiers.setVariable
