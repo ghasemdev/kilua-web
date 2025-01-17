@@ -9,6 +9,9 @@ import web.JsAny
 @JsModule("./k-compose.css")
 internal external object ComposeCss : JsAny
 
+@JsModule("./k-ripple-script.js")
+internal external object RippleScript : JsAny
+
 /**
  * Initializer for Kilua compose module.
  */
@@ -16,5 +19,7 @@ object ComposeModule : ModuleInitializer {
     override fun initialize() {
         useModule(ComposeCss)
         CssRegister.register("./k-compose.css")
+
+        useModule(RippleScript)
     }
 }

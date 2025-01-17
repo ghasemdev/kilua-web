@@ -46,6 +46,19 @@ fun IComponent.Box(
 }
 
 @Composable
+fun IComponent.Box(
+    modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.TopStart,
+    onClick: () -> Unit,
+    content: @Composable BoxScope.() -> Unit = {}
+) {
+    Div(modifier = modifier.classNames("kilua-ripple-item").boxClasses(contentAlignment)) {
+        onClick { onClick() }
+        BoxScopeInstance.content()
+    }
+}
+
+@Composable
 fun IComponent.box(
     contentAlignment: Alignment = Alignment.TopStart,
     selfAlignment: Alignment? = null,

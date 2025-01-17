@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.compose.ComposeModule
@@ -38,12 +37,27 @@ import dev.kilua.compose.ui.modifiers.height
 import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.core.IComponent
 import dev.kilua.html.Color
+import dev.kilua.html.h1t
 import dev.kilua.html.px
 import dev.kilua.startApplication
 
 class App : Application() {
     override fun start() {
         root("root") {
+            var text by remember { mutableStateOf("") }
+
+            Column {
+                Box(
+                    modifier = Modifier
+                        .width(100.px)
+                        .height(100.px)
+                        .background(Color.Red),
+                    onClick = {
+                        text = "Hello world!"
+                    },
+                )
+                h1t(text)
+            }
         }
     }
 
