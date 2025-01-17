@@ -21,11 +21,11 @@
  */
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.compose.ComposeModule
-import dev.kilua.compose.adaptive.WindowWidthSizeClass
-import dev.kilua.compose.adaptive.currentWindowAdaptiveInfo
+import dev.kilua.compose.adaptive.*
 import dev.kilua.compose.foundation.layout.Arrangement
 import dev.kilua.compose.foundation.layout.Box
 import dev.kilua.compose.foundation.layout.Column
@@ -44,30 +44,82 @@ import dev.kilua.startApplication
 class App : Application() {
     override fun start() {
         root("root") {
-            val windowAdaptiveInfo = currentWindowAdaptiveInfo()
+        }
+    }
 
-            Row {
-                Box(
-                    modifier = Modifier
-                        .width(
-                            when (windowAdaptiveInfo.windowSizeClass.widthSizeClass) {
-                                WindowWidthSizeClass.Compact -> 50.px
-                                WindowWidthSizeClass.Medium -> 100.px
-                                WindowWidthSizeClass.Expanded -> 200.px
-                            }
-                        )
-                        .height(
-                            when (windowAdaptiveInfo.windowSizeClass.widthSizeClass) {
-                                WindowWidthSizeClass.Compact -> 50.px
-                                WindowWidthSizeClass.Medium -> 100.px
-                                WindowWidthSizeClass.Expanded -> 200.px
-                            }
-                        )
-                        .background(Color.Red)
-                )
+    @Composable
+    private fun IComponent.ResponsiveSolutions() {
+        val windowAdaptiveInfo = currentWindowAdaptiveInfo().windowSizeClass
+        val breakpoint by rememberBreakpoint()
+        val tailwindcssBreakpoint by rememberTailwindcssBreakpoint()
 
-                Box()
-            }
+        Row {
+            Box(
+                modifier = Modifier
+                    .width(
+                        when (windowAdaptiveInfo.widthSizeClass) {
+                            WindowWidthSizeClass.Compact -> 50.px
+                            WindowWidthSizeClass.Medium -> 100.px
+                            WindowWidthSizeClass.Expanded -> 200.px
+                        }
+                    )
+                    .height(
+                        when (windowAdaptiveInfo.widthSizeClass) {
+                            WindowWidthSizeClass.Compact -> 50.px
+                            WindowWidthSizeClass.Medium -> 100.px
+                            WindowWidthSizeClass.Expanded -> 200.px
+                        }
+                    )
+                    .background(Color.Red)
+            )
+
+            Box(
+                modifier = Modifier
+                    .width(
+                        when (breakpoint) {
+                            Breakpoint.Mobile -> 50.px
+                            Breakpoint.SmallTablet -> 100.px
+                            Breakpoint.Tablet -> 150.px
+                            Breakpoint.Laptop -> 200.px
+                            Breakpoint.Desktop -> 300.px
+                        }
+                    )
+                    .height(
+                        when (breakpoint) {
+                            Breakpoint.Mobile -> 50.px
+                            Breakpoint.SmallTablet -> 100.px
+                            Breakpoint.Tablet -> 150.px
+                            Breakpoint.Laptop -> 200.px
+                            Breakpoint.Desktop -> 300.px
+                        }
+                    )
+                    .background(Color.Green)
+            )
+
+            Box(
+                modifier = Modifier
+                    .width(
+                        when (tailwindcssBreakpoint) {
+                            TailwindcssBreakpoint.DEFAULT -> 50.px
+                            TailwindcssBreakpoint.SM -> 100.px
+                            TailwindcssBreakpoint.MD -> 150.px
+                            TailwindcssBreakpoint.LG -> 200.px
+                            TailwindcssBreakpoint.XL -> 250.px
+                            TailwindcssBreakpoint.XL2 -> 300.px
+                        }
+                    )
+                    .height(
+                        when (tailwindcssBreakpoint) {
+                            TailwindcssBreakpoint.DEFAULT -> 50.px
+                            TailwindcssBreakpoint.SM -> 100.px
+                            TailwindcssBreakpoint.MD -> 150.px
+                            TailwindcssBreakpoint.LG -> 200.px
+                            TailwindcssBreakpoint.XL -> 250.px
+                            TailwindcssBreakpoint.XL2 -> 300.px
+                        }
+                    )
+                    .background(Color.Blue)
+            )
         }
     }
 
