@@ -24,13 +24,11 @@ import androidx.compose.runtime.Composable
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.compose.ComposeModule
-import dev.kilua.compose.foundation.layout.Box
-import dev.kilua.compose.foundation.layout.Column
-import dev.kilua.compose.foundation.layout.Row
-import dev.kilua.compose.foundation.layout.box
+import dev.kilua.compose.adaptive.WindowWidthSizeClass
+import dev.kilua.compose.adaptive.currentWindowAdaptiveInfo
+import dev.kilua.compose.foundation.layout.*
 import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
-import dev.kilua.compose.ui.Arrangement
 import dev.kilua.compose.ui.Modifier
 import dev.kilua.compose.ui.modifiers.background
 import dev.kilua.compose.ui.modifiers.height
@@ -38,16 +36,27 @@ import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.core.IComponent
 import dev.kilua.html.Color
 import dev.kilua.html.helpers.TagStyleFun.Companion.background
-import dev.kilua.html.perc
 import dev.kilua.html.px
 import dev.kilua.startApplication
 
 class App : Application() {
     override fun start() {
         root("root") {
+            val windowAdaptiveInfo = currentWindowAdaptiveInfo()
+
             box {
-                width(100.px)
-                height(100.px)
+                when (windowAdaptiveInfo.windowSizeClass.widthSizeClass) {
+                    WindowWidthSizeClass.Compact -> width(50.px)
+                    WindowWidthSizeClass.Medium -> width(100.px)
+                    WindowWidthSizeClass.Expanded -> width(200.px)
+                }
+
+                when (windowAdaptiveInfo.windowSizeClass.widthSizeClass) {
+                    WindowWidthSizeClass.Compact -> height(50.px)
+                    WindowWidthSizeClass.Medium -> height(100.px)
+                    WindowWidthSizeClass.Expanded -> height(200.px)
+                }
+
                 background(color = Color.Red)
             }
         }
