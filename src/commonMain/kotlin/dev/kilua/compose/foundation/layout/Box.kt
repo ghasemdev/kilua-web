@@ -22,7 +22,6 @@ interface BoxScope {
 
 internal object BoxScopeInstance : BoxScope
 
-
 /**
  * Add classes that tell the browser to display this element as a column.
  *
@@ -52,7 +51,7 @@ fun IComponent.Box(
     onClick: () -> Unit,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    Div(modifier = modifier.classNames("kilua-ripple-item").boxClasses(contentAlignment)) {
+    Div(modifier = modifier.boxClasses(contentAlignment)) {
         onClick { onClick() }
         BoxScopeInstance.content()
     }
