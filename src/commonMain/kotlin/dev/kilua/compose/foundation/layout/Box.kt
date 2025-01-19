@@ -51,8 +51,11 @@ fun IComponent.Box(
     onClick: () -> Unit,
     content: @Composable BoxScope.() -> Unit = {}
 ) {
-    Div(modifier = modifier.boxClasses(contentAlignment)) {
-        MdRipple.apply { attach(this@Div.element) }
+    Div(
+        modifier = modifier
+            .classNames("ripple")
+            .boxClasses(contentAlignment)
+    ) {
         onClick { onClick() }
         BoxScopeInstance.content()
     }
