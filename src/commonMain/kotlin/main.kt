@@ -20,20 +20,11 @@
  * SOFTWARE.
  */
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.compose.ComposeModule
-import dev.kilua.compose.adaptive.Breakpoint
-import dev.kilua.compose.adaptive.TailwindcssBreakpoint
-import dev.kilua.compose.adaptive.WindowWidthSizeClass
-import dev.kilua.compose.adaptive.currentWindowAdaptiveInfo
-import dev.kilua.compose.adaptive.rememberBreakpoint
-import dev.kilua.compose.adaptive.rememberTailwindcssBreakpoint
+import dev.kilua.compose.adaptive.*
 import dev.kilua.compose.foundation.layout.Arrangement
 import dev.kilua.compose.foundation.layout.Box
 import dev.kilua.compose.foundation.layout.Column
@@ -58,11 +49,17 @@ class App : Application() {
             Column {
                 Box(
                     modifier = Modifier
-                        .width(100.px)
+                        .width(500.px)
                         .height(100.px)
-                        .background(Color.Red),
+                        .background(Color("#19273B")),
                     onClick = {
-                        text = "Hello world!"
+                        text = "onClick"
+                    },
+                    onDoubleClick = {
+                        text = "onDoubleClick"
+                    },
+                    onLongClick = {
+                        text = "onLongClick"
                     },
                 )
                 h1t(text)
