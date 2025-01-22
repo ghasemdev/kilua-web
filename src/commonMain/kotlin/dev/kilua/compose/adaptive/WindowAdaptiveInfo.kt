@@ -1,9 +1,9 @@
 package dev.kilua.compose.adaptive
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import dev.kilua.compose.ui.geometry.Size
+import dev.kilua.compose.web.events.onGlobalWindowSize
+import web.window
 
 /**
  * Calculates and returns [WindowAdaptiveInfo] of the provided context. It's a convenient function
@@ -14,9 +14,17 @@ import androidx.compose.runtime.getValue
  */
 @Composable
 fun currentWindowAdaptiveInfo(): WindowAdaptiveInfo {
-    val size by LocalWindowInfo.containerSize.collectAsState()
-    return WindowAdaptiveInfo(WindowSizeClass.calculateFromSize(size))
+    var size by remember { mutableStateOf(getCurrentWindowSize()) }
+    val adaptiveInfo = remember(size) { WindowAdaptiveInfo(WindowSizeClass.calculateFromSize(size)) }
+    onGlobalWindowSize { size = it }
+
+    return adaptiveInfo
 }
+
+private fun getCurrentWindowSize(): Size = Size(
+    width = window.innerWidth.toFloat(),
+    height = window.innerHeight.toFloat()
+)
 
 /**
  * This class collects window info that affects adaptation decisions. An adaptive layout is supposed

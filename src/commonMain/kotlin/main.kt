@@ -37,6 +37,7 @@ import dev.kilua.compose.ui.modifiers.height
 import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.core.IComponent
 import dev.kilua.html.Color
+import dev.kilua.html.divt
 import dev.kilua.html.h1t
 import dev.kilua.html.px
 import dev.kilua.startApplication
@@ -44,26 +45,31 @@ import dev.kilua.startApplication
 class App : Application() {
     override fun start() {
         root("root") {
-            var text by remember { mutableStateOf("") }
+            Clickable()
+        }
+    }
 
-            Column {
-                Box(
-                    modifier = Modifier
-                        .width(500.px)
-                        .height(100.px)
-                        .background(Color("#19273B")),
-                    onClick = {
-                        text = "onClick"
-                    },
-                    onDoubleClick = {
-                        text = "onDoubleClick"
-                    },
-                    onLongClick = {
-                        text = "onLongClick"
-                    },
-                )
-                h1t(text)
-            }
+    @Composable
+    private fun IComponent.Clickable() {
+        var text by remember { mutableStateOf("") }
+
+        Column {
+            Box(
+                modifier = Modifier
+                    .width(500.px)
+                    .height(100.px)
+                    .background(Color("#19273B")),
+                onClick = {
+                    text = "onClick"
+                },
+                onDoubleClick = {
+                    text = "onDoubleClick"
+                },
+                onLongClick = {
+                    text = "onLongClick"
+                },
+            )
+            h1t(text)
         }
     }
 
@@ -72,6 +78,7 @@ class App : Application() {
         val windowAdaptiveInfo = currentWindowAdaptiveInfo().windowSizeClass
         val breakpoint by rememberBreakpoint()
         val tailwindcssBreakpoint by rememberTailwindcssBreakpoint()
+        val orientation by rememberOrientation()
 
         Row {
             Box(
@@ -140,6 +147,8 @@ class App : Application() {
                     )
                     .background(Color.Blue)
             )
+
+            divt(orientation.toString())
         }
     }
 
