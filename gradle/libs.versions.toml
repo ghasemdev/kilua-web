@@ -5,6 +5,7 @@ compose = "1.7.3"
 
 [libraries]
 kilua = { module = "dev.kilua:kilua", version.ref = "kilua" }
+kilua-routing = { module = "dev.kilua:kilua-routing", version.ref = "kilua" }
 kilua-tailwindcss = { module = "dev.kilua:kilua-tailwindcss", version.ref = "kilua" }
 
 [plugins]

@@ -43,6 +43,7 @@ kotlin {
         commonMain.dependencies {
 //            implementation(compose.animation)
             implementation(libs.kilua)
+            implementation(libs.kilua.routing)
             implementation(npm("beercss", "3.8.0"))
         }
     }

@@ -20,8 +20,13 @@
  * SOFTWARE.
  */
 
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import app.softwork.routingcompose.HashRouter
+import app.softwork.routingcompose.Router
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.compose.ComposeModule
@@ -36,6 +41,7 @@ import dev.kilua.compose.foundation.layout.Arrangement
 import dev.kilua.compose.foundation.layout.Box
 import dev.kilua.compose.foundation.layout.Column
 import dev.kilua.compose.foundation.layout.Row
+import dev.kilua.compose.foundation.layout.box
 import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
@@ -45,16 +51,76 @@ import dev.kilua.compose.ui.modifiers.height
 import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.core.IComponent
 import dev.kilua.html.Color
+import dev.kilua.html.button
 import dev.kilua.html.divt
+import dev.kilua.html.helpers.TagStyleFun.Companion.background
 import dev.kilua.html.px
+import dev.kilua.html.vh
+import dev.kilua.html.vw
 import dev.kilua.startApplication
+
+@Composable
+fun IComponent.AnimatedContent(
+    targetState: String,
+    content: @Composable (String) -> Unit
+) {
+    val transitionState = updateTransition(targetState, label = "page-transition")
+
+    val alpha by transitionState.animateFloat(
+        transitionSpec = { tween(durationMillis = 1000) },
+        label = "alpha"
+    ) { if (it == targetState) 1f else 0f }
+
+    box {
+        opacity(alpha.toDouble())
+        width(100.vw)
+        height(100.vh)
+
+        content(targetState)
+    }
+}
 
 class App : Application() {
     override fun start() {
         root("root") {
-            Clickable()
+            HashRouter(initPath = "/login") {
+                val router = Router.current
+
+                    AnimatedContent(router.currentPath.path) {
+                        route("/login") {
+                            box(contentAlignment = Alignment.Center) {
+                                width(100.vw)
+                                height(100.vh)
+                                background(color = Color.Red)
+
+                                button {
+                                    onClick {
+                                        router.navigate("/home", hide = true, replace = true)
+                                    }
+
+                                    +"go to dashboard"
+                                }
+                            }
+                        }
+                        route("/home") {
+                            box(contentAlignment = Alignment.Center) {
+                                width(100.vw)
+                                height(100.vh)
+                                background(color = Color.Blue)
+
+                                button {
+                                    onClick {
+                                        router.navigate("/login", hide = true, replace = true)
+                                    }
+
+                                    +"go to login"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
-    }
 
     @Composable
     private fun IComponent.Clickable() {
