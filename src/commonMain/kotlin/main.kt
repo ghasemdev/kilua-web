@@ -20,11 +20,18 @@
  * SOFTWARE.
  */
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.compose.ComposeModule
-import dev.kilua.compose.adaptive.*
+import dev.kilua.compose.adaptive.Breakpoint
+import dev.kilua.compose.adaptive.TailwindcssBreakpoint
+import dev.kilua.compose.adaptive.WindowWidthSizeClass
+import dev.kilua.compose.adaptive.currentWindowAdaptiveInfo
+import dev.kilua.compose.adaptive.rememberBreakpoint
+import dev.kilua.compose.adaptive.rememberOrientation
+import dev.kilua.compose.adaptive.rememberTailwindcssBreakpoint
 import dev.kilua.compose.foundation.layout.Arrangement
 import dev.kilua.compose.foundation.layout.Box
 import dev.kilua.compose.foundation.layout.Column
@@ -33,12 +40,12 @@ import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
 import dev.kilua.compose.ui.modifiers.background
+import dev.kilua.compose.ui.modifiers.classNames
 import dev.kilua.compose.ui.modifiers.height
 import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.core.IComponent
 import dev.kilua.html.Color
 import dev.kilua.html.divt
-import dev.kilua.html.h1t
 import dev.kilua.html.px
 import dev.kilua.startApplication
 
@@ -51,25 +58,14 @@ class App : Application() {
 
     @Composable
     private fun IComponent.Clickable() {
-        var text by remember { mutableStateOf("") }
-
         Column {
             Box(
                 modifier = Modifier
                     .width(500.px)
                     .height(100.px)
-                    .background(Color("#19273B")),
-                onClick = {
-                    text = "onClick"
-                },
-                onDoubleClick = {
-                    text = "onDoubleClick"
-                },
-                onLongClick = {
-                    text = "onLongClick"
-                },
+                    .background(Color("#19273B"))
+                    .classNames("ripple", "hover"),
             )
-            h1t(text)
         }
     }
 

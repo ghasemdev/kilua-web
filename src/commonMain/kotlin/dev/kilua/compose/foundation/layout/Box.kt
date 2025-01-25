@@ -1,12 +1,12 @@
 package dev.kilua.compose.foundation.layout
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import dev.kilua.compose.style.toClassName
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
 import dev.kilua.compose.ui.attrsModifier
 import dev.kilua.compose.ui.modifiers.classNames
-import dev.kilua.compose.web.events.onCombineClick
 import dev.kilua.core.IComponent
 import dev.kilua.html.IDiv
 import dev.kilua.html.div
@@ -40,29 +40,6 @@ fun IComponent.Box(
     content: @Composable BoxScope.() -> Unit = {}
 ) {
     Div(modifier = modifier.boxClasses(contentAlignment)) {
-        BoxScopeInstance.content()
-    }
-}
-
-@Composable
-fun IComponent.Box(
-    modifier: Modifier = Modifier,
-    contentAlignment: Alignment = Alignment.TopStart,
-    onClick: () -> Unit,
-    onDoubleClick: (() -> Unit)? = null,
-    onLongClick: (() -> Unit)? = null,
-    content: @Composable BoxScope.() -> Unit = {}
-) {
-    Div(
-        modifier = modifier
-            .classNames("ripple")
-            .boxClasses(contentAlignment)
-    ) {
-        onCombineClick(
-            onClick = onClick,
-            onDoubleClick = onDoubleClick,
-            onLongClick = onLongClick,
-        )
         BoxScopeInstance.content()
     }
 }
