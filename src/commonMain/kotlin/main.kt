@@ -22,6 +22,7 @@
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import app.softwork.routingcompose.BrowserRouter
 import app.softwork.routingcompose.HashRouter
 import app.softwork.routingcompose.Router
 import dev.kilua.Application
@@ -46,9 +47,9 @@ import web.JsAny
 
 @Composable
 fun IComponent.transition(
-    content: @Composable IDiv.() -> Unit = {},
+    content: @Composable IMain.() -> Unit = {},
 ) {
-    div(
+    main(
         className = "transition-fade",
         id = "swup",
         content = content,
@@ -59,8 +60,15 @@ external class SwupOptions : JsAny {
     var native: Boolean
 }
 
+external class NavigateOptions : JsAny {
+    var history: String
+}
+
 @JsModule("Swup")
-external class Swup(options: SwupOptions) : JsAny
+external class Swup(options: SwupOptions) : JsAny {
+    fun navigate(url: String)
+    fun navigate(url: String, navigateOptions: NavigateOptions)
+}
 
 val swup = Swup(options = obj { native = true })
 
@@ -68,7 +76,7 @@ class App : Application() {
     override fun start() {
         root("root") {
             transition {
-                HashRouter(initPath = "/login") {
+                BrowserRouter(initPath = "/login") {
                     val router = Router.current
                     route("/login") {
                         box(contentAlignment = Alignment.Center) {
@@ -81,7 +89,7 @@ class App : Application() {
                                 p { +"Lorem ipsum dolor sit amet." }
                                 button {
                                     onClick {
-                                        router.navigate("/home", hide = true, replace = true)
+                                        swup.navigate(url ="/home", navigateOptions = obj { history = "replace" })
                                     }
 
                                     +"go to dashboard"
@@ -98,7 +106,7 @@ class App : Application() {
 
                             button {
                                 onClick {
-                                    router.navigate("/login", hide = true, replace = true)
+                                    swup.navigate(url ="/login", navigateOptions = obj { history = "replace" })
                                 }
 
                                 +"go to login"
