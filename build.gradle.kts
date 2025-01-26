@@ -44,7 +44,8 @@ kotlin {
 //            implementation(compose.animation)
             implementation(libs.kilua)
             implementation(libs.kilua.routing)
-            implementation(npm("beercss", "3.8.0"))
+            implementation(npm("beercss", "3.8.0")) // material3
+            implementation(npm("swup", "4.8.1")) // animation
         }
     }
 }

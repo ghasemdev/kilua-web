@@ -26,6 +26,7 @@ import app.softwork.routingcompose.HashRouter
 import app.softwork.routingcompose.Router
 import dev.kilua.Application
 import dev.kilua.Hot
+import dev.kilua.JsModule
 import dev.kilua.compose.ComposeModule
 import dev.kilua.compose.adaptive.*
 import dev.kilua.compose.foundation.layout.*
@@ -37,43 +38,71 @@ import dev.kilua.compose.ui.modifiers.classNames
 import dev.kilua.compose.ui.modifiers.height
 import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.core.IComponent
+import dev.kilua.externals.obj
 import dev.kilua.html.*
 import dev.kilua.html.helpers.TagStyleFun.Companion.background
 import dev.kilua.startApplication
+import web.JsAny
+
+@Composable
+fun IComponent.transition(
+    content: @Composable IDiv.() -> Unit = {},
+) {
+    div(
+        className = "transition-fade",
+        id = "swup",
+        content = content,
+    )
+}
+
+external class SwupOptions : JsAny {
+    var native: Boolean
+}
+
+@JsModule("Swup")
+external class Swup(options: SwupOptions) : JsAny
+
+val swup = Swup(options = obj { native = true })
 
 class App : Application() {
     override fun start() {
         root("root") {
-            HashRouter(initPath = "/login") {
-                val router = Router.current
+            transition {
+                HashRouter(initPath = "/login") {
+                    val router = Router.current
+                    route("/login") {
+                        box(contentAlignment = Alignment.Center) {
+                            width(100.vw)
+                            height(100.vh)
+                            background(color = Color.Red)
 
-                route("/login") {
-                    box(contentAlignment = Alignment.Center) {
-                        width(100.vw)
-                        height(100.vh)
-                        background(color = Color.Red)
+                            column {
+                                h1 { +"Welcome" }
+                                p { +"Lorem ipsum dolor sit amet." }
+                                button {
+                                    onClick {
+                                        router.navigate("/home", hide = true, replace = true)
+                                    }
 
-                        button {
-                            onClick {
-                                router.navigate("/home", hide = true, replace = true)
+                                    +"go to dashboard"
+                                }
                             }
-
-                            +"go to dashboard"
                         }
                     }
-                }
-                route("/home") {
-                    box(contentAlignment = Alignment.Center) {
-                        width(100.vw)
-                        height(100.vh)
-                        background(color = Color.Blue)
 
-                        button {
-                            onClick {
-                                router.navigate("/login", hide = true, replace = true)
+                    route("/home") {
+                        box(contentAlignment = Alignment.Center) {
+                            width(100.vw)
+                            height(100.vh)
+                            background(color = Color.Blue)
+
+                            button {
+                                onClick {
+                                    router.navigate("/login", hide = true, replace = true)
+                                }
+
+                                +"go to login"
                             }
-
-                            +"go to login"
                         }
                     }
                 }
