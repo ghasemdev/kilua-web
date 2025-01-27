@@ -21,16 +21,29 @@
  */
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import app.softwork.routingcompose.BrowserRouter
-import app.softwork.routingcompose.HashRouter
-import app.softwork.routingcompose.Router
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import dev.kilua.Application
 import dev.kilua.Hot
 import dev.kilua.JsModule
 import dev.kilua.compose.ComposeModule
-import dev.kilua.compose.adaptive.*
-import dev.kilua.compose.foundation.layout.*
+import dev.kilua.compose.adaptive.Breakpoint
+import dev.kilua.compose.adaptive.TailwindcssBreakpoint
+import dev.kilua.compose.adaptive.WindowWidthSizeClass
+import dev.kilua.compose.adaptive.currentWindowAdaptiveInfo
+import dev.kilua.compose.adaptive.rememberBreakpoint
+import dev.kilua.compose.adaptive.rememberOrientation
+import dev.kilua.compose.adaptive.rememberTailwindcssBreakpoint
+import dev.kilua.compose.foundation.layout.Arrangement
+import dev.kilua.compose.foundation.layout.Box
+import dev.kilua.compose.foundation.layout.Column
+import dev.kilua.compose.foundation.layout.Row
+import dev.kilua.compose.foundation.layout.box
+import dev.kilua.compose.foundation.layout.column
 import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
@@ -40,79 +53,126 @@ import dev.kilua.compose.ui.modifiers.height
 import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.core.IComponent
 import dev.kilua.externals.obj
-import dev.kilua.html.*
-import dev.kilua.html.helpers.TagStyleFun.Companion.background
+import dev.kilua.html.Color
+import dev.kilua.html.button
+import dev.kilua.html.divt
+import dev.kilua.html.px
+import dev.kilua.html.vh
+import dev.kilua.html.vw
 import dev.kilua.startApplication
 import web.JsAny
-
-@Composable
-fun IComponent.transition(
-    content: @Composable IMain.() -> Unit = {},
-) {
-    main(
-        className = "transition-fade",
-        id = "swup",
-        content = content,
-    )
-}
+import web.JsArray
+import web.dom.url.URL
 
 external class SwupOptions : JsAny {
     var native: Boolean
+    var animationSelector: Boolean
+    var plugins: JsArray<JsAny>
 }
 
-external class NavigateOptions : JsAny {
-    var history: String
+external class NavigationOptions : JsAny {
+    var history: String?
 }
 
-@JsModule("Swup")
+@JsModule("@swup/slide-theme")
+@JsNonModule
+external class SwupSlideTheme : JsAny
+
+@JsModule("swup")
+@JsNonModule
 external class Swup(options: SwupOptions) : JsAny {
-    fun navigate(url: String)
-    fun navigate(url: String, navigateOptions: NavigateOptions)
+    val location: URL
+    fun navigate(url: String, options: NavigationOptions)
+
+    fun enable()
+    fun destroy()
 }
 
-val swup = Swup(options = obj { native = true })
+var currentPath = mutableStateOf("/login")
+fun navigateTo(path: String) {
+    currentPath.value = path
+//    swup.navigate(path, obj { history = "replace" })
+}
 
 class App : Application() {
     override fun start() {
         root("root") {
-            transition {
-                BrowserRouter(initPath = "/login") {
-                    val router = Router.current
-                    route("/login") {
-                        box(contentAlignment = Alignment.Center) {
-                            width(100.vw)
-                            height(100.vh)
-                            background(color = Color.Red)
+            box(contentAlignment = Alignment.Center) {
+                width(100.vw)
+                height(100.vh)
 
-                            column {
-                                h1 { +"Welcome" }
-                                p { +"Lorem ipsum dolor sit amet." }
-                                button {
-                                    onClick {
-                                        swup.navigate(url ="/home", navigateOptions = obj { history = "replace" })
-                                    }
+                var transitioning by remember { mutableStateOf(false) }
+                var lastPath by remember { mutableStateOf(currentPath.value) }
 
-                                    +"go to dashboard"
-                                }
-                            }
-                        }
+                key(currentPath.value) {
+                    transitioning = true
+                    lastPath = currentPath.value
+                }
+
+                if (transitioning) {
+                    when (lastPath) {
+                        "/login" -> LoginPage("page exit")
+                        "/home" -> HomePage("page exit")
                     }
+                }
 
-                    route("/home") {
-                        box(contentAlignment = Alignment.Center) {
-                            width(100.vw)
-                            height(100.vh)
-                            background(color = Color.Blue)
+                when (currentPath.value) {
+                    "/login" -> LoginPage("page active")
+                    "/home" -> HomePage("page active")
+                }
 
-                            button {
-                                onClick {
-                                    swup.navigate(url ="/login", navigateOptions = obj { history = "replace" })
-                                }
+                SideEffect {
+                    transitioning = false
+                }
+            }
+        }
 
-                                +"go to login"
-                            }
-                        }
-                    }
+    }
+
+    @Composable
+    fun IComponent.HomePage(className: String) {
+        box(contentAlignment = Alignment.Center, className = className) {
+            width(100.vw)
+            height(100.vh)
+
+            column {
+                divt(
+                    "Lorem ipsum odor amet, consectetuer adipiscing elit." +
+                            " Consectetur porttitor pretium praesent tincidunt " +
+                            "himenaeos donec consequat. Donec elementum facilisis " +
+                            "vivamus facilisis eu ornare placerat parturient. Purus" +
+                            " phasellus sodales nulla quis ut quis sit. At eleifend " +
+                            "aptent venenatis lacus montes varius class diam velit. Eu " +
+                            "scelerisque semper justo class suscipit massa. Conubia dui o" +
+                            "rnare dapibus nisl taciti. Maecenas nibh sapien tellus platea," +
+                            " congue conubia condimentum finibus."
+                )
+                button {
+                    onClick { navigateTo("/login") }
+                    +"go to login"
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun IComponent.LoginPage(className: String) {
+        box(contentAlignment = Alignment.Center, className = className) {
+            width(100.vw)
+            height(100.vh)
+
+            column {
+                divt(
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod " +
+                            "tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, " +
+                            "quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo " +
+                            "consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse " +
+                            "cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat " +
+                            "non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                )
+                button {
+                    onClick { navigateTo("/home") }
+                    +"go to dashboard"
                 }
             }
         }
@@ -294,7 +354,16 @@ class App : Application() {
     override fun dispose(): String? = null
 }
 
+lateinit var swup: Swup
+
 fun main() {
+    val options = obj<SwupOptions> {
+        native = true
+//        plugins = jsArrayOf(SwupSlideTheme())
+    }
+    swup = Swup(options = options)
+    swup.enable()
+
     startApplication(::App, webpackHot(), ComposeModule)
 }
 
