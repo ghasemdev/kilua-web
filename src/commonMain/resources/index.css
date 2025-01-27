@@ -2,48 +2,89 @@
     margin: 0;
 }
 
-html.is-changing .transition-fade {
-  view-transition-name: main;
+/* تنظیمات کلی */
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-::view-transition-old(main) {
-  animation: fade 5s ease-in-out both;
+#app {
+    position: relative;
+    width: 100vw;
+    height: 90vh;
 }
 
-::view-transition-new(main) {
-  animation: fade 5s ease-in-out both reverse;
-}
-
-@keyframes fade {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-html.is-changing:not(.swup-native) .transition-fade {
-  transition: 5s opacity;
-  opacity: 1;
-}
-
-html.is-animating:not(.swup-native) .transition-fade {
-  opacity: 0;
-}
-.page {
+.screen {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out; /* Fade + Slide */
-    opacity: 0; /* Initial Fade State */
-    transform: translateX(100%); /* Initial Slide Position (off-screen to right) */
-    pointer-events: none; /* Disable interactions while invisible */
+    opacity: 0;
+    transform: translateX(100%);
+    transition: none;
 }
 
-.page.active {
-    opacity: 1; /* Fade in */
-    transform: translateX(0); /* Slide to visible position */
-    pointer-events: auto; /* Enable interactions */
+.screen.no-animation {
+    opacity: 1; /* صفحه نمایش داده می‌شود */
+    transform: translateX(0); /* بدون حرکت */
+    animation: none;
 }
 
-.page.exit {
-    opacity: 0; /* Fade out */
-    transform: translateX(-100%); /* Slide off-screen to the left */
+.screen.active {
+    animation: slideIn 500ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards, fadeIn 500ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+.screen.exit-left {
+    animation: slideOutLeft 500ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards, fadeOut 500ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+.screen.exit-right {
+    animation: slideOutRight 500ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards, fadeOut 500ms cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(40%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-40%);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(40%);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }

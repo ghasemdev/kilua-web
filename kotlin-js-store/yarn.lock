@@ -862,13 +862,6 @@ define-lazy-prop@^2.0.0:
   resolved "https://registry.yarnpkg.com/define-lazy-prop/-/define-lazy-prop-2.0.0.tgz#3f7ae421129bcaaac9bc74905c98a0009ec9ee7f"
   integrity sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==
 
-delegate-it@^6.0.0:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/delegate-it/-/delegate-it-6.2.1.tgz#a264a7406bc369140135cb0fcc1f8e6c3cde3e7a"
-  integrity sha512-3/P/rwj+zal/99EEml7y1+bXjBY+Wok/WSg0EngWAtdvHK6iKTPbABQE84RyyRfR0Fmejs93BrkZQWlgyeWuFQ==
-  dependencies:
-    typed-query-selector "^2.11.2"
-
 depd@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/depd/-/depd-2.0.0.tgz#b696163cc757560d09cf22cc8fad1571b79e76df"
@@ -2006,11 +1999,6 @@ open@^8.0.9:
     is-docker "^2.1.1"
     is-wsl "^2.2.0"
 
-opencollective-postinstall@^2.0.2:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
-  integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
-
 p-limit@^2.2.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/p-limit/-/p-limit-2.3.0.tgz#3dd33c647a214fdfffd835933eb086da0dc21db1"
@@ -2081,11 +2069,6 @@ path-to-regexp@0.1.12:
   version "0.1.12"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.12.tgz#d5e1a12e478a976d432ef3c58d534b9923164bb7"
   integrity sha512-RA1GjUVMnvYFxuqovrEqZoxxW5NUZqbwKtYz/Tt7nXerk0LbLblQmrsgdeOxV5SFHf0UDggjS/bSeOZwt1pmEQ==
-
-path-to-regexp@^6.2.1:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.3.0.tgz#2b6a26a337737a8e1416f9272ed0766b1c0389f4"
-  integrity sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==
 
 picocolors@^1.0.0, picocolors@^1.1.0, picocolors@^1.1.1:
   version "1.1.1"
@@ -2637,15 +2620,6 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-swup@4.8.1:
-  version "4.8.1"
-  resolved "https://registry.yarnpkg.com/swup/-/swup-4.8.1.tgz#20ac6bf5b1aa7d4860d676451cc49c02d1affe9e"
-  integrity sha512-MEXrQUvsUE9lyt1SX8KEZcGmPigAvtkVvHwJf22MOKsjb+aDgiljTc5LTXz0ehsA/1OOXRqvtS4kWLey26i/hQ==
-  dependencies:
-    delegate-it "^6.0.0"
-    opencollective-postinstall "^2.0.2"
-    path-to-regexp "^6.2.1"
-
 tapable@^2.1.1, tapable@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-2.2.1.tgz#1967a73ef4060a82f12ab96af86d52fdb76eeca0"
@@ -2701,11 +2675,6 @@ type-is@~1.6.18:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
-
-typed-query-selector@^2.11.2:
-  version "2.12.0"
-  resolved "https://registry.yarnpkg.com/typed-query-selector/-/typed-query-selector-2.12.0.tgz#92b65dbc0a42655fccf4aeb1a08b1dddce8af5f2"
-  integrity sha512-SbklCd1F0EiZOyPiW192rrHZzZ5sBijB6xM+cpmrwDqObvdtunOHHIk9fCGsoK5JVIYXoyEp4iEdE3upFH3PAg==
 
 typescript@5.5.4:
   version "5.5.4"

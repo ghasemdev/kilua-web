@@ -21,29 +21,13 @@
  */
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import dev.kilua.Application
 import dev.kilua.Hot
-import dev.kilua.JsModule
 import dev.kilua.compose.ComposeModule
-import dev.kilua.compose.adaptive.Breakpoint
-import dev.kilua.compose.adaptive.TailwindcssBreakpoint
-import dev.kilua.compose.adaptive.WindowWidthSizeClass
-import dev.kilua.compose.adaptive.currentWindowAdaptiveInfo
-import dev.kilua.compose.adaptive.rememberBreakpoint
-import dev.kilua.compose.adaptive.rememberOrientation
-import dev.kilua.compose.adaptive.rememberTailwindcssBreakpoint
-import dev.kilua.compose.foundation.layout.Arrangement
-import dev.kilua.compose.foundation.layout.Box
-import dev.kilua.compose.foundation.layout.Column
-import dev.kilua.compose.foundation.layout.Row
-import dev.kilua.compose.foundation.layout.box
-import dev.kilua.compose.foundation.layout.column
+import dev.kilua.compose.adaptive.*
+import dev.kilua.compose.foundation.layout.*
 import dev.kilua.compose.root
 import dev.kilua.compose.ui.Alignment
 import dev.kilua.compose.ui.Modifier
@@ -52,46 +36,12 @@ import dev.kilua.compose.ui.modifiers.classNames
 import dev.kilua.compose.ui.modifiers.height
 import dev.kilua.compose.ui.modifiers.width
 import dev.kilua.core.IComponent
-import dev.kilua.externals.obj
-import dev.kilua.html.Color
-import dev.kilua.html.button
-import dev.kilua.html.divt
-import dev.kilua.html.px
-import dev.kilua.html.vh
-import dev.kilua.html.vw
+import dev.kilua.html.*
 import dev.kilua.startApplication
-import web.JsAny
-import web.JsArray
-import web.dom.url.URL
-
-external class SwupOptions : JsAny {
-    var native: Boolean
-    var animationSelector: Boolean
-    var plugins: JsArray<JsAny>
-}
-
-external class NavigationOptions : JsAny {
-    var history: String?
-}
-
-@JsModule("@swup/slide-theme")
-@JsNonModule
-external class SwupSlideTheme : JsAny
-
-@JsModule("swup")
-@JsNonModule
-external class Swup(options: SwupOptions) : JsAny {
-    val location: URL
-    fun navigate(url: String, options: NavigationOptions)
-
-    fun enable()
-    fun destroy()
-}
 
 var currentPath = mutableStateOf("/login")
 fun navigateTo(path: String) {
     currentPath.value = path
-//    swup.navigate(path, obj { history = "replace" })
 }
 
 class App : Application() {
@@ -101,32 +51,12 @@ class App : Application() {
                 width(100.vw)
                 height(100.vh)
 
-                var transitioning by remember { mutableStateOf(false) }
-                var lastPath by remember { mutableStateOf(currentPath.value) }
-
-                key(currentPath.value) {
-                    transitioning = true
-                    lastPath = currentPath.value
-                }
-
-                if (transitioning) {
-                    when (lastPath) {
-                        "/login" -> LoginPage("page exit")
-                        "/home" -> HomePage("page exit")
-                    }
-                }
-
                 when (currentPath.value) {
                     "/login" -> LoginPage("page active")
                     "/home" -> HomePage("page active")
                 }
-
-                SideEffect {
-                    transitioning = false
-                }
             }
         }
-
     }
 
     @Composable
@@ -354,16 +284,7 @@ class App : Application() {
     override fun dispose(): String? = null
 }
 
-lateinit var swup: Swup
-
 fun main() {
-    val options = obj<SwupOptions> {
-        native = true
-//        plugins = jsArrayOf(SwupSlideTheme())
-    }
-    swup = Swup(options = options)
-    swup.enable()
-
     startApplication(::App, webpackHot(), ComposeModule)
 }
 
